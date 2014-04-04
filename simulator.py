@@ -24,12 +24,31 @@ def update_expense(transactionType, user, transaction):
 	elif transactionType == 'support':
 		value = transaction.proportion * transaction.recipient.last_income
 		return value
+	elif transactionType == 'endorsement':
+		value = 0
+		# Expense of endorsement is recipient's last_income?
+		# Expense of endorsement this step is recipient's payments summed
+		for tx in transaction.recipient.expenses['payment']:
+			value += tx.amount * transaction.proportion
+		return value
 
 def update_income(transactionType, user, transaction):
 	if transactionType == 'payment':
-		return transaction.amount;
+		#Income from a payment includes endorsers
+		# explicit check/early bail unnecessary,
+		# will remove once confidence in endorsement handling
+		if(len(transaction.initiator.income['endorsement']) == 0):
+			return transaction.amount;
+		e_value = 0
+		for tx in transaction.initiator.income['endorsement']:
+			e_value += transaction.amount * tx.proportion
+		return e_value + transaction.amount
 	elif transactionType == 'support':
 		value = transaction.proportion * transaction.recipient.last_income
+		return value
+	elif transactionType == 'endorsement':
+		# No direct income from endorsements
+		value = 0
 		return value
 
 def process_users(users):
@@ -79,6 +98,9 @@ def run_step(transactions, users):
 		elif transaction.tType == 'support':
 			transaction.initiator.expenses['support'].append(transaction)
 			transaction.recipient.income['support'].append(transaction)
+		elif transaction.tType == 'endorsement':
+			transaction.initiator.expenses['endorsement'].append(transaction)
+			transaction.recipient.income['endorsement'].append(transaction)
 		else:
 			return False
 		ledger.append(transaction)
