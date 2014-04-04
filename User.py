@@ -19,25 +19,4 @@ class User:
 		self.current_expenses = 0
 		self.last_income = 0
 		self.last_expenses = 0
-#		for i in transactionTypes:
-#			self.expenses[i] = []
-#			self.income[i] = []
-
-class PaymentEntry:
-	amount = 0
-	duration = 1
-	def __init__(self, amount, duration):
-		self.amount = amount
-		self.duration = duration
-		
-
-class SupportEntry:
-	amount = 0
-	duration = 1
-	def __init__(self, amount, duration):
-		self.amount = amount
-		self.duration = duration
-
-
-
 
