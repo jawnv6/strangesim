@@ -22,4 +22,4 @@ class Support(Transaction):
 		self.initiator = initiator
 		self.recipient = recipient
 		self.proportion = proportion
-		self.duration = duration
+		self.duration = 2 * duration

@@ -43,12 +43,12 @@ def process_users(users):
 			for entry in user.expenses[transactionType]:
 				current_tx_expense += update_expense(transactionType, user, entry)
 				entry.duration -= 1
-				if entry.duration <= 0:
+				if entry.duration <= 1:
 					user.expenses[transactionType].remove(entry)
 			for entry in user.income[transactionType]:
 				current_tx_income += update_income(transactionType, user, entry)
 				entry.duration -= 1
-				if entry.duration <= 0:
+				if entry.duration <= 1:
 					user.income[transactionType].remove(entry)
 			user.current_expense += current_tx_expense
 			user.current_income += current_tx_income
