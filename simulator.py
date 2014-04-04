@@ -111,10 +111,10 @@ def run_step(transactions, users):
 	return checkPassed
 
 def run_simulation():
-	users = [User("X",100,0,0), User("Y",200,0,0)]
-	transactions = [Payment(users[0], users[1], 25)]
+	users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
+	transactions = [Payment(users[0], users[1], 25)] 
 	run_step(transactions, users)
-	transactions = [Support(users[1], users[0], .05, 9)]
+	transactions = [Endorsement(users[2], users[1], .05, 5)]
 	run_step(transactions, users)
 	running = True
 	count = 0

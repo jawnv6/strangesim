@@ -23,3 +23,12 @@ class Support(Transaction):
 		self.recipient = recipient
 		self.proportion = proportion
 		self.duration = 2 * duration
+
+
+class Endorsement(Transaction):
+	def __init__(self, initiator, recipient, proportion, duration):
+		self.tType = 'support'
+		self.initiator = initiator
+		self.recipient = recipient
+		self.proportion = proportion
+		self.duration = 2 * duration
