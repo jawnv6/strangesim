@@ -30,6 +30,7 @@ def update_expense(transactionType, user, transaction):
 		# Expense of endorsement this step is recipient's payments summed
 		for tx in transaction.recipient.expenses['payment']:
 			value += tx.amount * transaction.proportion
+		print('wat' + user.name + " " + str(value) + " " + str(len(transaction.recipient.expenses['payment'])) )
 		return value
 
 def update_income(transactionType, user, transaction):
