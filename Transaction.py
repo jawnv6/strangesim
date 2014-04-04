@@ -22,7 +22,7 @@ class Support(Transaction):
 		self.initiator = initiator
 		self.recipient = recipient
 		self.proportion = proportion
-		self.duration = 2 * duration
+		self.duration = duration
 
 
 class Endorsement(Transaction):
@@ -31,4 +31,4 @@ class Endorsement(Transaction):
 		self.initiator = initiator
 		self.recipient = recipient
 		self.proportion = proportion
-		self.duration = 2 * duration
+		self.duration = duration

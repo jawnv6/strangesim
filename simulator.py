@@ -30,7 +30,6 @@ def update_expense(transactionType, user, transaction):
 		# Expense of endorsement this step is recipient's payments summed
 		for tx in transaction.recipient.expenses['payment']:
 			value += tx.amount * transaction.proportion
-		print('wat' + user.name + " " + str(value) + " " + str(len(transaction.recipient.expenses['payment'])) )
 		return value
 
 def update_income(transactionType, user, transaction):
@@ -62,14 +61,14 @@ def process_users(users):
 			current_tx_income = 0
 			for entry in user.expenses[transactionType]:
 				current_tx_expense += update_expense(transactionType, user, entry)
-				entry.duration -= 1
-				if entry.duration <= 1:
-					user.expenses[transactionType].remove(entry)
+				#entry.duration -= 1
+				#if entry.duration <= 1:
+				#	user.expenses[transactionType].remove(entry)
 			for entry in user.income[transactionType]:
 				current_tx_income += update_income(transactionType, user, entry)
-				entry.duration -= 1
-				if entry.duration <= 1:
-					user.income[transactionType].remove(entry)
+				#entry.duration -= 1
+				#if entry.duration <= 1:
+				#	user.income[transactionType].remove(entry)
 			user.current_expense += current_tx_expense
 			user.current_income += current_tx_income
 #			if(current_tx_income != 0 or current_tx_expense != 0):
@@ -77,6 +76,19 @@ def process_users(users):
 		new_balance = user.balance + user.current_income - user.current_expense
 #		print(user.name + " BAL: " + str(user.balance) +" NEW BAL: " + str(new_balance) )
 		user.balance = new_balance
+	for user in users:
+		for transactionType in ordering:
+			# Making the assumption that every tx is in some user's expenses
+			for entry in user.expenses[transactionType]:
+				entry.duration -= 1
+				if entry.duration <= 0:
+					user.expenses[transactionType].remove(entry)
+	for user in users:
+		for transactionType in ordering:
+			for entry in user.income[transactionType]:
+				if entry.duration <= 0:
+					user.income[transactionType].remove(entry)
+
 	for user in users:
 		user.last_expense = user.current_expense
 		user.last_income = user.current_income
@@ -115,7 +127,7 @@ def run_simulation():
 	users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
 	transactions = [Payment(users[0], users[1], 25)] 
 	run_step(transactions, users)
-	transactions = [Endorsement(users[2], users[1], .05, 5)]
+	transactions = [Endorsement(users[2], users[1], .5, 5)]
 	run_step(transactions, users)
 	running = True
 	count = 0
