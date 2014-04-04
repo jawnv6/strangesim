@@ -78,7 +78,7 @@ def process_users(users):
 		user.balance = new_balance
 	for user in users:
 		for transactionType in ordering:
-			# Making the assumption that every tx is in some user's expenses
+			# Making the assumption that every tx is in some user's expenses exactly once
 			for entry in user.expenses[transactionType]:
 				entry.duration -= 1
 				if entry.duration <= 0:
@@ -96,9 +96,13 @@ def process_users(users):
 # 
 
 def check_users(users):
+	total = 0
 	for user in users:
 		if(user.balance <= 0):
 			return False
+		else:
+			total += user.balance
+	print("Total at end of step:" + str(total))
 	return True
 
 def run_step(transactions, users):
@@ -117,8 +121,8 @@ def run_step(transactions, users):
 		else:
 			return False
 		ledger.append(transaction)
-	#Uncomment here to see transactions in flight
-	print_users(users)
+	#Uncomment here to see payments and balances
+	#print_users(users)
 	process_users(users)
 	checkPassed = check_users(users)
 	return checkPassed
@@ -127,8 +131,10 @@ def run_simulation():
 	users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
 	transactions = [Payment(users[0], users[1], 25)] 
 	run_step(transactions, users)
+	print_users(users)
 	transactions = [Endorsement(users[2], users[1], .5, 5)]
 	run_step(transactions, users)
+	print_users(users)
 	running = True
 	count = 0
 	while(running):
@@ -137,8 +143,8 @@ def run_simulation():
 		else:
 			transactions = [Payment(users[1], users[0], count)]
 		running = run_step(transactions, users)
-		# Uncomment here to see balances only
-		#print_users(users)
+		# Uncomment here to see balances & long-duration transactions
+		print_users(users)
 		count += 1
 			
 
