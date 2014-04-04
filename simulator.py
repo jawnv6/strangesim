@@ -22,14 +22,14 @@ def update_expense(transactionType, user, transaction):
 	if transactionType == 'payment':
 		return transaction.amount;
 	elif transactionType == 'support':
-		value = 0
+		value = transaction.proportion * transaction.recipient.last_income
 		return value
 
 def update_income(transactionType, user, transaction):
 	if transactionType == 'payment':
 		return transaction.amount;
 	elif transactionType == 'support':
-		value = 0
+		value = transaction.proportion * transaction.recipient.last_income
 		return value
 
 def process_users(users):
@@ -78,12 +78,12 @@ def run_step(transactions, users):
 			transaction.recipient.income['payment'].append(transaction)
 		elif transaction.tType == 'support':
 			transaction.initiator.expenses['support'].append(transaction)
-			transaction.recipient.income['payment'].append(transaction)
+			transaction.recipient.income['support'].append(transaction)
 		else:
 			return False
 		ledger.append(transaction)
 	#Uncomment here to see transactions in flight
-	#print_users(users)
+	print_users(users)
 	process_users(users)
 	checkPassed = check_users(users)
 	return checkPassed
@@ -92,19 +92,19 @@ def run_simulation():
 	users = [User("X",100,0,0), User("Y",200,0,0)]
 	transactions = [Payment(users[0], users[1], 25)]
 	run_step(transactions, users)
-	transactions = [Payment(users[1], users[0], 50)]
+	transactions = [Support(users[1], users[0], .05, 9)]
 	run_step(transactions, users)
 	running = True
 	count = 0
 	while(running):
-		running = run_step(transactions, users)
-		# Uncomment here to see balances only
-		#print_users(users)
-		count += 1
 		if(random.choice([True, False]) ):
 			transactions = [Payment(users[0], users[1], count)]
 		else:
 			transactions = [Payment(users[1], users[0], count)]
+		running = run_step(transactions, users)
+		# Uncomment here to see balances only
+		#print_users(users)
+		count += 1
 			
 
 run_simulation()

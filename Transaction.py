@@ -20,5 +20,6 @@ class Support(Transaction):
 	def __init__(self, initiator, recipient, proportion, duration):
 		self.tType = 'support'
 		self.initiator = initiator
+		self.recipient = recipient
 		self.proportion = proportion
 		self.duration = duration
