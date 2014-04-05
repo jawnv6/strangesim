@@ -144,7 +144,7 @@ def run_simulation():
 			transactions = [Payment(users[1], users[0], count)]
 		running = run_step(transactions, users)
 		# Uncomment here to see balances & long-duration transactions
-		print_users(users)
+		#print_users(users)
 		count += 1
 			
 
