@@ -18,6 +18,22 @@ def print_users(users):
 		line += " :: "
 	print(line)
 
+def print_balances(users):
+	# Need easy way to consume results
+	# This will spit balances in .csv format
+	line = ""
+	for user in users:
+		line += str(user.balance) + ", "
+	print(line)
+
+def print_usernames(users):
+	# Same as above, adding column titles for .csv
+	line = ""
+	for user in users:
+		line += user.name + ", "
+	print(line)
+
+
 def update_expense(transactionType, user, transaction):
 	if transactionType == 'payment':
 		return transaction.amount;
@@ -108,7 +124,7 @@ def check_users(users):
 			return False
 		else:
 			total += user.balance
-	print("Total at end of step:" + str(total))
+	#print("Total at end of step:" + str(total))
 	return True
 
 def run_step(transactions, users):
@@ -163,20 +179,16 @@ def generate_transaction(users):
 
 def run_simulation():
 	#users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
-	users = generate_users(5, 10)
-	transactions = [Payment(users[0], users[1], 25)] 
-	run_step(transactions, users)
-	print_users(users)
-	transactions = [Endorsement(users[2], users[1], .5, 5)]
-	run_step(transactions, users)
-	print_users(users)
+	users = generate_users(50, 10)
+	print_usernames(users)
 	running = True
 	count = 0
 	while(running):
 		transactions = [generate_transaction(users)]
 		running = run_step(transactions, users)
 		# Uncomment here to see balances & long-duration transactions
-		print_users(users)
+		#print_users(users)
+		print_balances(users)
 		count += 1
 			
 
