@@ -139,12 +139,27 @@ def run_step(transactions, users):
 def generate_users(num, gini):
 	# Populate a list of random users
 	# Balances are a random number from 100 to 100 * 'gini'
-	# idk wtf gini coeff really is, but it's roughly the imbalance at start of list
+	# idk wtf gini coeff really is, but it's roughly the imbalance at start of sim
 	users = []
 	for x in xrange(0,num):
 		balance = 100 * random.randint(1,gini)
 		users.append(User("User #" + str(x), balance, 0,0))
 	return users
+
+def generate_transaction(users):
+	# Get a random transaction for this step
+	txType = random.choice(['payment', 'support', 'endorsement'])
+	(initiator, recipient) = random.sample(users, 2)
+	if txType == 'payment':
+		amount = random.randint(1, int(initiator.balance))
+		return Payment(initiator, recipient, amount)
+	elif txType == 'support':
+		proportion = random.uniform(0.05, 0.15)
+		return Support(initiator, recipient, proportion, 5)
+	elif txType == 'endorsement':
+		proportion = random.uniform(0.05, 0.15)
+		return Endorsement(initiator, recipient, proportion, 5)
+		
 
 def run_simulation():
 	#users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
@@ -158,10 +173,7 @@ def run_simulation():
 	running = True
 	count = 0
 	while(running):
-		if(random.choice([True, False]) ):
-			transactions = [Payment(users[0], users[1], count)]
-		else:
-			transactions = [Payment(users[1], users[0], count)]
+		transactions = [generate_transaction(users)]
 		running = run_step(transactions, users)
 		# Uncomment here to see balances & long-duration transactions
 		print_users(users)
