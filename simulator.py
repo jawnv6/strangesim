@@ -31,6 +31,9 @@ def update_expense(transactionType, user, transaction):
 		for tx in transaction.recipient.expenses['payment']:
 			value += tx.amount * transaction.proportion
 		return value
+	elif transactionType == 'coupling':
+		value = 0
+		return value
 
 def update_income(transactionType, user, transaction):
 	if transactionType == 'payment':
@@ -48,6 +51,9 @@ def update_income(transactionType, user, transaction):
 		return value
 	elif transactionType == 'endorsement':
 		# No direct income from endorsements
+		value = 0
+		return value
+	elif transactionType == 'coupling':
 		value = 0
 		return value
 
@@ -153,3 +159,10 @@ def run_simulation():
 
 run_simulation()
 
+
+def generate_users(num, gini):
+	users = []
+	for x in range(0,num):
+		balance = 100 * random.uniform(0,gini)
+		users.append(User("User #" + str(x), balance, 0,0))
+	return users
