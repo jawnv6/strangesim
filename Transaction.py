@@ -32,3 +32,12 @@ class Endorsement(Transaction):
 		self.recipient = recipient
 		self.proportion = proportion
 		self.duration = duration
+		
+
+class Coupling(Transaction):
+	def __init__(self, initiator, recipient, c_xy, c_yx, duration):
+		self.tType = 'coupling'
+		self.initiator = initiator
+		self.recipient = recipient
+		self.proportion = proportion
+		self.duration = duration

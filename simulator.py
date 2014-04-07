@@ -118,6 +118,9 @@ def run_step(transactions, users):
 		elif transaction.tType == 'endorsement':
 			transaction.initiator.expenses['endorsement'].append(transaction)
 			transaction.recipient.income['endorsement'].append(transaction)
+		elif transaction.tType == 'coupling':
+			transaction.initiator.expenses['coupling'].append(transaction)
+			transaction.recipient.income['coupling'].append(transaction)
 		else:
 			return False
 		ledger.append(transaction)
