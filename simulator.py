@@ -137,7 +137,8 @@ def run_step(transactions, users):
 	return checkPassed
 
 def run_simulation():
-	users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
+	#users = [User("X",100,0,0), User("Y",200,0,0), User("Z", 100, 0,0)]
+	users = generate_users(5, 10)
 	transactions = [Payment(users[0], users[1], 25)] 
 	run_step(transactions, users)
 	print_users(users)
