@@ -26,6 +26,12 @@ def print_balances(users):
 		line += str(user.balance) + ", "
 	print(line)
 
+def print_revenues(users):
+	line = ""
+	for user in users:
+		line += str(user.last_income) + ", " + str(user.last_expenses) + ", "
+	print(line)
+
 def print_usernames(users):
 	# Same as above, adding column titles for .csv
 	line = ""
@@ -188,7 +194,8 @@ def run_simulation():
 		running = run_step(transactions, users)
 		# Uncomment here to see balances & long-duration transactions
 		#print_users(users)
-		print_balances(users)
+		#print_balances(users)
+		print_revenues(users)
 		count += 1
 			
 
